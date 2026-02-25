@@ -1,0 +1,8 @@
+﻿@using namasdev.Web.Helpers;
+@{
+    ViewBag.Title = "Access denied";
+}
+<h2>@ViewBag.Title</h2>
+<p>
+    @Html.AlertWarning("You don't have access to the requested page. Please, contact an administrator.")
+</p>

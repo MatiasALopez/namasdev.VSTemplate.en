@@ -1,0 +1,3 @@
+﻿@using namasdev.Web.Helpers;
+@model namasdev.Web.Models.OrderLinkPOST
+<a href="#" class="link-order" data-orden="@UrlBuilder.BuildOrderExpression(Model.Order, Request.Form["order"], applyOrderDescToFirstElementOnly: Model.ApplyOrderDescToFirstElementOnly)">@Model.Text</a>

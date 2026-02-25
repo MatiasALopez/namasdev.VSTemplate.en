@@ -1,0 +1,170 @@
+﻿body { padding-top: 48px; }
+    body.no-header { padding-top: 0 !important; }
+
+#mainWrapper { display: flex; width: 100%; }
+#mainContent { width: 100%; }
+#sidebarMenu { border-right: 1px solid #eee; min-width: 250px; max-width: 250px; }
+#sidebarMenu ul li a {
+    position: relative;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+    #sidebarMenu ul li a:hover { background: #eee; }
+
+#sidebarMenu a.active,
+#sidebarMenu ul li.active > a,
+#sidebarMenu a[aria-expanded="true"] {
+    color: #007bff !important;
+}
+
+.sidebar-submenu a {
+    font-size: 0.9em !important;
+    padding: 5px 5px 5px 15px !important;
+}
+
+.sidebar-submenu .sidebar-submenu a {
+    padding: 5px 5px 5px 25px !important;
+}
+
+#sidebarMenu .dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+    #mainWrapper { display: block; }
+    #sidebarMenu { min-width: 100%; max-width: 100%; }
+}
+
+.navbar { padding: .25rem 1rem !important; }
+.bg-navbar { background-color: #C0E6F5; }
+.custom-file-label { overflow: hidden; }
+
+.menu-icon { width: 16px; margin-top: -5px; margin-right: 5px; }
+
+.flat-icon-attribution { color: #888; font-size: 10pt; }
+.flat-icon-attribution a { color: #333; }
+
+.text-sm { font-size: 0.8rem !important; }
+.text-md { font-size: 1rem !important; }
+.text-lg { font-size: 1rem; }
+
+.btn-group-xs > .btn, .btn-xs {
+    padding: 0.25rem 0.5rem;
+    font-size: .75rem;
+    line-height: 1.2;
+    border-radius: 0.2rem;
+}
+
+label[for] { font-weight: 500; margin-bottom: 5px; }
+.custom-file-label, .custom-control-label { font-weight: normal !important; }
+
+.form-control-plaintext {
+    padding: 0;
+}
+
+.semaphore {
+    height: 15px;
+    width: 15px;
+    border-radius: 50px;
+    margin: auto;
+}
+.semaphore-green { background-color: green; }
+.semaphore-yellow { background-color: yellow; }
+.semaphore-orange { background-color: orange; }
+.semaphore-red { background-color: red; }
+
+.semaphore-bandera { font-size: 16pt; }
+.semaphore-bandera-green { color: green; }
+.semaphore-bandera-yellow { color: #FFED00; }
+.semaphore-bandera-orange { color: orange; }
+.semaphore-bandera-red { color: red; }
+
+/* Validacion */
+.input-validation-error { border-color: #ff4000; }
+
+.required::after { content: '*'; margin-left: 5px; }
+
+.validation-summary-errors {
+    color: #852100;
+    background-color: #ffd9cc;
+    border-color: #ffcab8;
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+    .validation-summary-errors ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+.validation-summary-valid { display: none; }
+
+.field-validation-error { color: #ff4000; font-size: 0.8rem; }
+/******/
+
+/** Bootstrap fixes **/
+.col-form-label { font-weight: bold; }
+.text-success { color: #008542 !important; }
+.bg-lightgray { background-color: #f8f9fa !important; }
+
+.dropdown-menu[role=combobox] { z-index: 1060 !important; }
+    .dropdown-menu[role=combobox] ul.dropdown-menu li.selected {
+        background-color: #ddd;
+    }
+
+    .dropdown-menu[role=combobox] ul.dropdown-menu li a.dropdown-item:focus,
+    .dropdown-menu[role=combobox] ul.dropdown-menu li a.dropdown-item:hover {
+        color: #fff;
+        background-color: #495057;
+    }
+
+.btn-warning { color: white; }
+    .btn-warning:hover { color: white; }
+
+.bootstrap-select > .dropdown-toggle {
+    background-color: #fff;
+    color: #495057 !important;
+    border: 1px solid #ced4da;
+}
+/******/
+
+/** PowerBI **/
+.pbi-report {
+    /*min-width: 900px;*/
+    width: 100%;
+    height: 720px;
+    border: 1px solid #c8c8c8;
+}
+
+    .pbi-report iframe {
+        border: none;
+    }
+
+/*@media (max-width: 767px) {
+    .pbi-report {
+        min-width: inherit !important;
+        height: 550px;
+    }
+}*/
+/******/
+
+/** Bootstrap Datepicker **/
+.datepicker { z-index: 1100 !important; }
+.datepicker-dropdown { z-index: 1060 !important; }
+/******/
+
+/** Contador de texto **/
+.counter-text { font-weight: 600 }
+    .counter-text.exceeded { color: #dc3545; }
+/******/

@@ -1,0 +1,47 @@
+﻿@using MyApp.Web.Portal.Metadata.Views;
+@{
+    bool excludeHeaderYFooter = bool.Equals(true, ViewBag.ExcludeHeaderYFooter);
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+
+    ViewBag.BodyCss = excludeHeaderYFooter ? "no-header" : "";
+}
+@section headStyles {
+    @RenderSection("headStyles", required: false)
+}
+@section headScripts {
+    @RenderSection("headScripts", required: false)
+}
+@if (!excludeHeaderYFooter)
+{
+    <header class="container-fluid">
+        <nav id="navTopMenu" class="navbar navbar-expand-md navbar-light bg-navbar fixed-top" style="border-bottom: solid 1px rgba(0, 0, 0, .1);">
+            <button class="btn btn-sm d-none d-md-block mr-3" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Menu">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand pt-0" href="~/">MyApp</a>
+            @Html.Partial(SharedViews.NAVBAR)
+            <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </header>
+}
+<div id="mainWrapper">
+    @if (!excludeHeaderYFooter)
+    {
+        @Html.Partial(SharedViews.MENU)
+    }
+    <main id="mainContent" class="@(ViewBag.MainContentCssClass != null ? ViewBag.MainContentCssClass : (!excludeHeaderYFooter && Request.IsAuthenticated ? "p-3" : ""))">
+        @if (!excludeHeaderYFooter)
+        {
+            @RenderSection("breadcrumb", required: false)
+        }
+        @RenderBody()
+    </main>
+</div>
+@section bodyScripts {
+    @RenderSection("bodyScripts", required: false)
+}
+@section modals {
+    @RenderSection("modals", required: false)
+}

@@ -1,0 +1,5 @@
+﻿@model namasdev.Web.Models.FileLinkItemModel
+@if (Model != null)
+{
+    <a href="@Model.DownloadURL" @{ if (Model.IsViewable){<text>data-iframe data-iframe-title="@Model.Name" data-iframe-modal-size="lg" data-iframe-height="500px"</text>} } class="@Model.ClassCss">@Model.Name <i class="fa @(Model.IsViewable ? "fa-eye" : "fa-download")"></i></a>
+}

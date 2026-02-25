@@ -1,0 +1,274 @@
+﻿@using namasdev.Web.Helpers;
+@using MyApp.Entities;
+@using MyApp.Entities.Metadata;
+@using MyApp.Web.Portal.Controllers;
+@using MyApp.Web.Portal.Models.Users;
+@using MyApp.Web.Portal.Metadata.Views;
+@model MyApp.Web.Portal.ViewModels.Users.UsersViewModel
+@{
+    ViewBag.Title = UserMetadata.LABEL_PLURAL;
+
+    var controlesIds = new
+    {
+        Form = $"frm{UserMetadata.NAME_PLURAL}",
+        TableContainer = $"div{UserMetadata.NAME_PLURAL}Container",
+        Table = $"tbl{UserMetadata.NAME_PLURAL}"
+    };
+    var displayNames = new
+    {
+        Role = Html.DisplayNameFor(m => m.Role).ToString(),
+        Search = Html.DisplayNameWithoutEncodingFor(m => m.Search).ToString()
+    };
+    var clasesCss = new
+    {
+        ResetPasswordButton = "btn-reset-password",
+        ResendActivationButton = "btn-resend-activation",
+        DeleteButton = "btn-delete",
+        ReactivateButton = "btn-reactivate",
+    };
+    var actionNames = new
+    {
+        Active = nameof(UsersController.Active),
+        Inactive = nameof(UsersController.Inactive),
+        Add = nameof(UsersController.Add),
+        Edit = nameof(UsersController.Edit),
+        Delete = nameof(UsersController.Delete),
+        ResetPassword = nameof(UsersController.ResetPassword),
+        ResendActivation = nameof(UsersController.ResendActivation),
+        Reactivate = nameof(UsersController.Reactivate),
+    };
+    var actionDisplayNames = new
+    {
+        Search = "Search",
+        Add = "Add",
+        Edit = "Edit",
+        Delete = "Delete",
+        ResetPassword = "Reset password",
+        ResendActivation = "Resend activation",
+        Reactivate = "Reactivate",
+    };
+    string actionName = ViewContext.RouteData.Values["action"] as string;
+}
+<h2 class="my-2">@ViewBag.Title</h2>
+<div class="mt-3 nav nav-tabs" role="tablist">
+    <a class="nav-item nav-link @(Model.PageMode == UsersPageMode.Active ? "active" : "")" href="@Url.Action(actionNames.Active)">Active</a>
+    <a class="nav-item nav-link @(Model.PageMode == UsersPageMode.Inactive ? "active" : "")" href="@Url.Action(actionNames.Inactive)">Inactive</a>
+</div>
+@Html.MessageSuccess()
+@Html.MessageError()
+<div class="row my-3">
+    <div class="col-md-3">
+        @if (Model.AddAvailable)
+        {
+            <a href="@Url.Action(actionNames.Add)" class="btn btn-primary">@actionDisplayNames.Add</a>
+        }
+    </div>
+    <div class="col-md-9 text-right filtros">
+        @using (Html.BeginForm(actionName, UsersController.NAME, FormMethod.Get, new { @class = "form-inline pull-right" }))
+        {
+            @Html.DropDownListFor(m => m.Role, Model.RolesSelectList, displayNames.Role, new { @class = "form-control ml-1", title = displayNames.Role, data_toggle = "tooltip" })
+            @Html.TextBoxFor(m => m.Search, new { @class = "form-control ml-1", placeholder = displayNames.Search, title = displayNames.Search, data_toggle = "tooltip" })
+            <button type="submit" class="btn btn-secondary ml-1">@actionDisplayNames.Search</button>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @if (Model.ItemsAvailable)
+        {
+            <div id="@controlesIds.TableContainer" class="table-responsive">
+                <form id="@controlesIds.Form">
+                    @Html.AntiForgeryToken()
+                </form>
+                <table id="@controlesIds.Table" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th><a href="@UrlBuilder.BuildUrlWithOrder(Request.Url, nameof(MyApp.Entities.User.FirstName))">@Html.DisplayNameFor(m => m.Items[0].FirstName) <i class="fa fa-sort ml-2"></i></a></th>
+                            <th><a href="@UrlBuilder.BuildUrlWithOrder(Request.Url, nameof(MyApp.Entities.User.LastName))">@Html.DisplayNameFor(m => m.Items[0].LastName) <i class="fa fa-sort ml-2"></i></a></th>
+                            <th><a href="@UrlBuilder.BuildUrlWithOrder(Request.Url, nameof(MyApp.Entities.User.Email))">@Html.DisplayNameFor(m => m.Items[0].Email) <i class="fa fa-sort ml-2"></i></a></th>
+                            <th>@Html.DisplayNameFor(m => m.Items[0].Role)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>@item.FirstName</td>
+                                <td>@item.LastName</td>
+                                <td>@item.Email</td>
+                                <td>@item.Role</td>
+                                <td class="text-center">
+                                    @switch (Model.PageMode)
+                                    {
+                                        case UsersPageMode.Active:
+                                            <a href="@Url.Action(actionNames.Edit, new { id = item.Id })" class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit" data-toggle="tooltip" title="@actionDisplayNames.Edit"></i></a>
+                                            if (item.Activated)
+                                            {
+                                                <button class="btn btn-sm btn-outline-secondary @clasesCss.ResetPasswordButton" data-id="@item.Id"><i class="fa fa-key" data-toggle="tooltip" title="@actionDisplayNames.ResetPassword"></i></button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-sm btn-outline-secondary @clasesCss.ResendActivationButton" data-id="@item.Id"><i class="fa fa-envelope" data-toggle="tooltip" title="@actionDisplayNames.ResendActivation"></i></button>
+                                            }
+                                            <button class="btn btn-sm btn-outline-danger @clasesCss.DeleteButton" data-id="@item.Id"><i data-toggle="tooltip" title="@actionDisplayNames.Delete" class="fa fa-trash"></i></button>
+                                            break;
+
+                                        case UsersPageMode.Inactive:
+                                            <button class="btn btn-sm btn-success @clasesCss.ReactivateButton" data-id="@item.Id">@actionDisplayNames.Reactivate</button>
+                                            break;
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @Html.Partial(SharedViews.PAGER, Model.Pagination)
+        }
+        else
+        {
+            <div class="alert alert-warning">No @UserMetadata.LABEL_PLURAL.ToLower() to show.</div>
+        }
+    </div>
+</div>
+@section bodyScripts {
+    <script type="text/javascript">
+        $(function () {
+            MyApp.setActiveMenuOption('@UserMetadata.NAME_PLURAL.ToLower()');
+
+            $('#@controlesIds.Table')
+                .on('click', '.@clasesCss.ResetPasswordButton', function (ev) {
+                    ev.preventDefault();
+
+                    var id = $(this).data('id');
+                    if (!id) {
+                        return;
+                    }
+
+                    var options = {
+                        showLoadingSelector: '#@controlesIds.TableContainer',
+                        confirm: true,
+                        confirmTitle: '@actionDisplayNames.ResetPassword',
+                        confirmMessage: '¿Are you sure you want to reset this user\'s password?'
+                    };
+                    MyApp.postJson(
+                        '@Url.Action(actionNames.ResetPassword)/' + id,
+                        nmd.ui.forms.createDataWithAntiForgeryToken('#@controlesIds.Form'),
+                        function (response) {
+                            if (response.success) {
+                                nmd.ui.controls.showSuccessModal('An email has been sent to the user in order to reset the password.');
+                            }
+                            else {
+                                MyApp.showErrorModal(response.message);
+                            }
+                        },
+                        options
+                    );
+
+                    return false;
+                });
+
+            $('#@controlesIds.Table')
+                .on('click', '.@clasesCss.DeleteButton', function (ev) {
+                    ev.preventDefault();
+
+                    var id = $(this).data('id');
+                    if (!id) {
+                        return;
+                    }
+
+                    var options = {
+                        showLoadingSelector: '#@controlesIds.TableContainer',
+                        confirm: true,
+                        confirmTitle: '@actionDisplayNames.Delete',
+                        confirmMessage: '¿Are you sure you want to delete this user?'
+                    };
+                    MyApp.postJson(
+                        '@Url.Action(actionNames.Delete)/' + id,
+                        nmd.ui.forms.createDataWithAntiForgeryToken('#@controlesIds.Form'),
+                        function (response) {
+                            if (response.success) {
+                                nmd.ui.controls.showSuccessModal(
+                                    '@UserMetadata.Messages.DELETE_OK',
+                                    function () {
+                                        nmd.page.reloadPage();
+                                    });
+                            }
+                            else {
+                                MyApp.showErrorModal(response.message);
+                            }
+                        },
+                        options
+                    );
+
+                    return false;
+                });
+
+            $('#@controlesIds.Table')
+                .on('click', '.@clasesCss.ResendActivationButton', function (ev) {
+                    ev.preventDefault();
+
+                    var id = $(this).data('id');
+                    if (!id) {
+                        return;
+                    }
+
+                    var options = {
+                        showLoadingSelector: '#@controlesIds.TableContainer',
+                    };
+                    MyApp.postJson(
+                        '@Url.Action(actionNames.ResendActivation)/' + id,
+                        nmd.ui.forms.createDataWithAntiForgeryToken('#@controlesIds.Form'),
+                        function (response) {
+                            if (response.success) {
+                                nmd.ui.controls.showSuccessModal('An email has been sent to the user in order to activate the account.');
+                            }
+                            else {
+                                MyApp.showErrorModal(response.message);
+                            }
+                        },
+                        options
+                    );
+
+                    return false;
+                });
+
+            $('#@controlesIds.Table')
+                .on('click', '.@clasesCss.ReactivateButton', function (ev) {
+                    ev.preventDefault();
+
+                    var id = $(this).data('id');
+                    if (!id) {
+                        return;
+                    }
+
+                    var options = {
+                        showLoadingSelector: '#@controlesIds.TableContainer',
+                        confirm: true,
+                        confirmTitle: '@actionDisplayNames.Reactivate',
+                        confirmMessage: '¿Are you sure you want to reactivate this user?'
+                    };
+                    MyApp.postJson(
+                        '@Url.Action(actionNames.Reactivate)/' + id,
+                        nmd.ui.forms.createDataWithAntiForgeryToken('#@controlesIds.Form'),
+                        function (response) {
+                            if (response.success) {
+                                nmd.ui.controls.showSuccessModal(
+                                    '@UserMetadata.Messages.REACTIVATE_OK',
+                                    function () {
+                                        nmd.page.reloadPage();
+                                    });
+                            }
+                            else {
+                                MyApp.showErrorModal(response.message);
+                            }
+                        },
+                        options
+                    );
+
+                    return false;
+                });
+        });
+    </script>
+}

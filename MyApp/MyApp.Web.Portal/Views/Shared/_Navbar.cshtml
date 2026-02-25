@@ -1,0 +1,27 @@
+﻿@using MyApp.Web.Portal.Helpers;
+@{
+    var appUserHelper = DependencyResolver.Current.GetService<AppUserHelper>();
+    string displayName = appUserHelper.LoggedInUserDisplayName;
+}
+@if (Request.IsAuthenticated)
+{
+    <ul class="navbar-nav ml-auto d-none d-md-flex">
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fa fa-user"></i>
+                @displayName
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="navbar-nav ml-auto d-sm-none">
+        <li class="nav-item">
+            <a class="nav-link" href="~/account/login">Log In</a>
+        </li>
+    </ul>
+}

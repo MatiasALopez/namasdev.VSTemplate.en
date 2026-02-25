@@ -1,0 +1,50 @@
+﻿@using namasdev.Web.Helpers;
+@using MyApp.Entities.Metadata;
+@using MyApp.Entities.Values;
+@using MyApp.Web.Portal.Controllers;
+@using MyApp.Web.Portal.Helpers;
+@{
+    var userHelper = DependencyResolver.Current.GetService<UserHelper>();
+}
+@if (Request.IsAuthenticated)
+{
+    <nav id="sidebarMenu" class="bg-lightgray collapse hide d-print-none">
+        <ul class="list-unstyled components">
+            <li id="menuFunctions">
+                <a href="#submenuFunctions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Functions</a>
+                <ul class="collapse list-unstyled sidebar-submenu" id="submenuFunctions">
+                    @if (userHelper.IsInRole(AspNetRoles.ADMINISTRATOR))
+                    {
+                        <li class="menu-@UserMetadata.LABEL_PLURAL.ToLower()"><a href="@Url.Action(nameof(UsersController.Active), UsersController.NAME)">@UserMetadata.LABEL_PLURAL</a></li>
+                    }
+                </ul>
+            </li>
+            <li id="menuReports">
+                <a href="#submenuReports" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Reports</a>
+                <ul class="collapse list-unstyled sidebar-submenu" id="submenuReports">
+                    @if (userHelper.IsInRole(AspNetRoles.ADMINISTRATOR))
+                    {
+                    }
+                </ul>
+            </li>
+            @if (Request.IsAuthenticated)
+            {
+                <li class="d-md-none">
+                    <a class="nav-link" href="#">
+                        <i class="fa fa-user"></i>
+                        @User.Identity.Name
+                    </a>
+                </li>
+                <li class="d-md-none">
+                    <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Log Out</a>
+                </li>
+            }
+            else
+            {
+                <li class="d-md-none">
+                    <a class="nav-link" href="~/account/login">Log In</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

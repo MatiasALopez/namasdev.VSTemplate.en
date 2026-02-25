@@ -1,0 +1,36 @@
+﻿@using MyApp.Web.Portal.Controllers;
+@model MyApp.Web.Portal.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = "Log In";
+}
+<section id="loginForm">
+    @using (Html.BeginForm(nameof(AccountController.Login), AccountController.NAME, new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", autocomplete = "off" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(excludePropertyErrors: false)
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <div class="custom-control custom-checkbox">
+                    @Html.CheckBoxFor(m => m.RememberMe, new { @class = "custom-control-input" })
+                    <label class="custom-control-label" for="@Html.IdFor(m => m.RememberMe)">Remember me</label>
+                </div>
+            </div>
+            <div class="col-7 text-right">
+                @Html.ActionLink("¿Forgot your password?", nameof(AccountController.ForgotPassword), AccountController.NAME)
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <input type="submit" class="btn btn-primary" value="Enter" />
+            </div>
+        </div>
+    }
+</section>

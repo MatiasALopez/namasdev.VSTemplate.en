@@ -1,0 +1,50 @@
+﻿@using namasdev.Web.Helpers; 
+@model namasdev.Web.Models.Pagination
+@{ 
+    const int maxPagesToShow = 7;
+    int midPagesToShow = (int)Math.Floor((double)maxPagesToShow / 2);
+}
+@if (!Model.IsSinglePage)
+{
+    <nav aria-label="Pagination">
+        <ul class="pagination">
+            <li class="page-item @(Model.PreviousPageAvailable ? "" : "disabled")">
+                <a class="page-link" @{if (Model.PreviousPageAvailable) { <text> href="@UrlBuilder.BuildUrlWithPage(Request.Url, Model.PreviousPage)" </text> } } aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            @{
+                int pageFrom;
+                int pageTo;
+                if (Model.TotalPageCount <= maxPagesToShow)
+                {
+                    pageFrom = 1;
+                    pageTo = Model.TotalPageCount;
+                }
+                else
+                {
+                    pageFrom = Math.Max(Model.Page - midPagesToShow, 1);
+                    pageTo = Math.Min(pageFrom + maxPagesToShow - 1, Model.TotalPageCount);
+                    pageFrom = pageTo - (maxPagesToShow - 1);
+                }
+                if (pageFrom - 1 >= 1)
+                {
+                    <li class="page-item"><a class="page-link" href="@UrlBuilder.BuildUrlWithPage(Request.Url, pageFrom - 1)">...</a></li>
+                }
+                for (var i = pageFrom; i <= pageTo; i++)
+                {
+                    <li class="page-item @(Model.Page == i ? "active" : "")"><a class="page-link" href="@UrlBuilder.BuildUrlWithPage(Request.Url, i)">@i</a></li>
+                }
+                if (pageTo + 1 <= Model.TotalPageCount)
+                {
+                    <li class="page-item"><a class="page-link" href="@UrlBuilder.BuildUrlWithPage(Request.Url, pageTo + 1)">...</a></li>
+                }
+            }
+            <li class="page-item @(Model.NextPageAvailable ? "" : "disabled")">
+                <a class="page-link" @{if (Model.NextPageAvailable) { <text> href="@UrlBuilder.BuildUrlWithPage(Request.Url, Model.NextPage)" </text> } } aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}

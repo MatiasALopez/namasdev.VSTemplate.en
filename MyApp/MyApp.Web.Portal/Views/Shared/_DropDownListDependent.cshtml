@@ -1,0 +1,8 @@
+﻿@model namasdev.Web.Models.DropDownListDependentModel
+<select id="@Model.Id" name="@Model.Id" @{if (!String.IsNullOrWhiteSpace(Model.CssClass)) {<text>class="@Model.CssClass"</text>} } @{if (Model.HtmlAttributes != null) { foreach (var attr in Model.HtmlAttributes) { <text>@attr.Key="@attr.Value"</text> } } }>
+</select>
+<script type="text/javascript">
+    $(function () {
+        nmd.ui.controls.initComboCascadeAjax('@Model.Id', '@Model.ParentComboId', '@Model.ItemsSearchUrl', { emptyOptionText: @(Model.EmptyOptionText != null ? $"'{Model.EmptyOptionText}'" : "null"), itemsAddedCallback: @Model.ItemsAddedCallback });
+    });
+</script>

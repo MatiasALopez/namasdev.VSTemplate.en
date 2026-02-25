@@ -1,0 +1,63 @@
+﻿@using MyApp.Web.Portal.Controllers; 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" sizes="24x24" />
+    <title>@(ViewBag.Title != null ? (string)ViewBag.Title + " - " : "") MyApp</title>
+    @Styles.Render(
+        "~/Content/bootstrap.min.css",
+        "~/Content/bootstrap-datepicker3.css",
+        "~/Content/bootstrap-select.min.css",
+        "~/Content/ajax-bootstrap-select.min.css",
+        "~/Content/font-awesome.min.css",
+        "~/Content/css")
+    @RenderSection("headStyles", required: false)
+    @Scripts.Render(
+        "~/scripts/lib/modernizr-2.8.3.min.js",
+        "~/Scripts/lib/jquery-3.4.1.min.js")
+    @RenderSection("headScripts", required: false)
+</head>
+<body class="@((string)ViewBag.BodyCss ?? "")">
+    <script type="text/javascript">
+        var urlRoot = '@Url.Content("~/")';
+    </script>
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm(nameof(AccountController.LogOff), AccountController.NAME, FormMethod.Post, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+        }
+    }
+    @RenderBody()
+
+    @Scripts.Render(
+        "~/Scripts/lib/jquery.validate.min.js",
+        "~/Scripts/lib/jquery.validate.unobtrusive.min.js",
+        "~/Scripts/lib/popper.min.js",
+        "~/Scripts/lib/bootstrap.min.js",
+        "~/Scripts/lib/moment.min.js",
+        "~/Scripts/lib/bootstrap-datepicker.min.js",
+        "~/Scripts/lib/bs-custom-file-input.min.js",
+        "~/Scripts/lib/bootstrap-select.min.js",
+        "~/Scripts/lib/ajax-bootstrap-select.min.js",
+        "~/Scripts/lib/bootbox.min.js",
+        "~/Scripts/lib/bootbox.locales.min.js",
+        "~/Scripts/lib/loadingoverlay.min.js",
+        "~/Scripts/lib/jquery.inputmask.min.js",
+        "~/Scripts/lib/jquery.numeric.js",
+        "~/Scripts/lib/numeral.min.js",
+        "~/Scripts/lib/jquery.charactercounter.min.js",
+        "~/Scripts/lib/jquery.are-you-sure.min.js",
+        "~/Scripts/lib/namasdev.min.js",
+        "~/scripts/site")
+    <script type="text/javascript">
+        $(function () {
+            MyApp.init();
+        });
+    </script>
+    @RenderSection("bodyScripts", required: false)
+    @RenderSection("modals", required: false)
+</body>
+</html>
