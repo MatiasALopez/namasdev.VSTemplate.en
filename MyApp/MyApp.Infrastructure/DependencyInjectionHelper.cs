@@ -21,6 +21,7 @@ namespace MyApp.Infrastructure
             services.AddScoped<IErrorsRepository, ErrorsRepository>();
             services.AddScoped<IEmailsParametersRepository, EmailsParametersRepository>();
             services.AddScoped<IAspNetIdentityRepository, AspNetIdentityRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
         }
 
         public static void RegisterBusiness(IServiceCollection services)
