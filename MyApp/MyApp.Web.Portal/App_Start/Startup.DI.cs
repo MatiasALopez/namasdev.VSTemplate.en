@@ -7,6 +7,8 @@ using MyApp.Infrastructure;
 using MyApp.Business;
 using MyApp.Web.Portal.Controllers;
 using MyApp.Web.Portal.Helpers;
+using namasdev.Web.Helpers;
+using System.Web;
 
 namespace MyApp.Web.Portal
 {
@@ -27,6 +29,7 @@ namespace MyApp.Web.Portal
             DependencyInjectionHelper.RegisterRepositories(services);
             DependencyInjectionHelper.RegisterBusiness(services);
             RegisterControllers(services);
+            RegisterHelpers(services);
         }
 
         private void RegisterUtils(ServiceCollection services)
@@ -42,6 +45,11 @@ namespace MyApp.Web.Portal
             services.AddTransient<AccountController>();
             services.AddTransient<HomeController>();
             services.AddTransient<UsersController>();
+        }
+
+        private void RegisterHelpers(ServiceCollection services)
+        {
+            services.AddTransient<UserHelper>(sp => new UserHelper(new HttpContextWrapper(HttpContext.Current)));
         }
     }
 }
