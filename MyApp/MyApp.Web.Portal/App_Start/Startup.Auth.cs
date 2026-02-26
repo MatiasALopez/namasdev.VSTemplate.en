@@ -32,14 +32,14 @@ namespace MyApp.Web.Portal
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 },
-                ExpireTimeSpan = ObtenerAuthenticationTimeout(),
+                ExpireTimeSpan = GetAuthenticationTimeout(),
                 CookieManager = new SystemWebCookieManager()
             });
         }
 
-        private TimeSpan ObtenerAuthenticationTimeout()
+        private TimeSpan GetAuthenticationTimeout()
         {
-            return TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["AuthenticationTimeoutEnMin"]));
+            return TimeSpan.FromMinutes(int.Parse(ConfigurationManager.AppSettings["AuthenticationTimeoutInMin"]));
         }
     }
 }
