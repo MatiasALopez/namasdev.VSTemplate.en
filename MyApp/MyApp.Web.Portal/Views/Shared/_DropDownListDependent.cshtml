@@ -3,6 +3,6 @@
 </select>
 <script type="text/javascript">
     $(function () {
-        nmd.ui.controls.initComboCascadeAjax('@Model.Id', '@Model.ParentComboId', '@Model.ItemsSearchUrl', { emptyOptionText: @(Model.EmptyOptionText != null ? $"'{Model.EmptyOptionText}'" : "null"), itemsAddedCallback: @Model.ItemsAddedCallback });
+        nmd.ui.controls.initComboCascadeAjax('@Model.Id', '@Model.ParentComboId', '@Model.ItemsSearchUrl', { emptyOptionText: @(Model.EmptyOptionText != null ? $"'{Model.EmptyOptionText}'" : "null"), itemsAddedCallback: @(!string.IsNullOrWhiteSpace(Model.ItemsAddedCallback) ? Model.ItemsAddedCallback ?? "null") });
     });
 </script>

@@ -1,7 +1,6 @@
-﻿@using MyApp.Web.Portal.Helpers;
+﻿@using namasdev.Web.Helpers;
 @{
-    var appUserHelper = DependencyResolver.Current.GetService<AppUserHelper>();
-    string displayName = appUserHelper.LoggedInUserDisplayName;
+    var userHelper = DependencyResolver.Current.GetService<UserHelper>();
 }
 @if (Request.IsAuthenticated)
 {
@@ -9,7 +8,7 @@
         <li class="nav-item">
             <a class="nav-link" href="#">
                 <i class="fa fa-user"></i>
-                @displayName
+                @userHelper.UserName
             </a>
         </li>
         <li class="nav-item">
