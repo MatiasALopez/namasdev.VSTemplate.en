@@ -2,7 +2,7 @@
 insert into dbo.Parameters (Name,Value) values
 ('ErrorsDefaultMessage','An error occurred. Please, try again later.'),
 ('PortalUrl', 'https://localhost:42000'),
-('MailsServer','{"PickupDirectory":"D:\\Dev\\mails\\MyApp","Sender":"no-reply@myapp.ccc","BCC":"bcc@myapp.ccc"}'),
+('MailsServer','{"PickupDirectory":"D:\\Dev\\mails\\MyApp","From":"no-reply@myapp.ccc","BCC":"bcc@myapp.ccc"}'),
 ('CloudStorageAccountConnectionString', 'UseDevelopmentStorage=true')
 go
 --====
